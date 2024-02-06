@@ -9,7 +9,7 @@ pip install -r requirements.txt
 python main.py --state-abbr [str] --start-time [str] --end-time [str] --output-format [str]
 # state-abbr: Abbrivation of state, default='CA'
 # start-time: format '%Y%m%d%H', default: '2024012118'
-# end-time: format '%Y%m%d%H', default: ''
+# end-time: format '%Y%m%d%H', default: '' (means now)
 # output-format: default: 'csv', support 'parquet'
 # e.g.
 # $ python main.py --start-time 2024020300
