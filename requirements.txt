@@ -1,0 +1,6 @@
+bs4==0.0.2
+pandas==2.0.3
+tqdm==4.64.0
+selenium==4.15.2
+pyarrow==14.0.2
+fastparquet==2023.10.1
