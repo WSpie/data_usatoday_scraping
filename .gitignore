@@ -1,2 +1,3 @@
 *.parquet
 nbk.ipynb
+outputs/*.csv

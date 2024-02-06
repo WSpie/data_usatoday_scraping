@@ -99,7 +99,16 @@ def filter_by_date(df, start_time, end_time):
 
     return filtered_df, min_time, max_time
 
-def main(state_abbr, start_time, end_time):
+def output_formatting(df, path, format):
+    if format == 'csv':
+        df.to_csv(path + '.csv', index=False)
+    elif format == 'parquet':
+        df.to_parquet(path + '.parquet', index=False)
+    else:
+        df.to_csv(path + '.' + format, index=False)
+    print(f'Saved results to {path}.{format}')
+
+def main(state_abbr, start_time, end_time, output_format):
     driver = init_driver()
     os.makedirs('outputs', exist_ok=True)
 
@@ -119,9 +128,8 @@ def main(state_abbr, start_time, end_time):
     if results:  # Check if the list is not empty
         combined_df = pd.concat(results, ignore_index=True)
         filtered_df, start, end = filter_by_date(combined_df, start_time, end_time)
-        filtered_df_path = f'outputs/{state_abbr}_{start}_{end}.parquet'
-        filtered_df.to_parquet(filtered_df_path, index=False)
-        print(f'Saved results to {filtered_df_path}')
+        filtered_df_path = f'outputs/{state_abbr}_{start}_{end}'
+        output_formatting(filtered_df, filtered_df_path, output_format)
     else:
         print("No data was scraped.")
     driver.close()
@@ -131,6 +139,7 @@ if __name__ == '__main__':
     parser.add_argument('--state-abbr', default='CA')
     parser.add_argument('--start-time', default='2024012118', help='YYYYMMDDHH')
     parser.add_argument('--end-time', default='', help='YYYYMMDDHH')
+    parser.add_argument('--output-format', default='csv')
     opt = parser.parse_args()
 
-    main(opt.state_abbr, opt.start_time, opt.end_time)
+    main(opt.state_abbr, opt.start_time, opt.end_time, opt.output_format)
